@@ -16,7 +16,7 @@ if ($_GET)
     if ($session->getIdMaquinista() != "" || ($request["action"] && $request["action"] === "login"))
     {
         switch ($request["action"]) {
-            case "una":
+            case "guardaCliente":
                 $response = array ("success" => true, "code" => 0, "description" => "Petición aceptada", "type" => "applicationResponse", "data" => array ());
                 break;
             case "login":

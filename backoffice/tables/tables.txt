@@ -8,6 +8,8 @@ CREATE TABLE `animales`.`PREFORMA` ( `pre_codpre` INT NOT NULL AUTO_INCREMENT , 
 CREATE TABLE `animales`.`FACTURA` ( `fac_codfac` INT NOT NULL AUTO_INCREMENT , `fac_codped` INT NOT NULL , `fac_codesp` INT NOT NULL , `fac_unidad` INT NOT NULL , `fac_precio` DECIMAL(10,3) NOT NULL , PRIMARY KEY (`fac_codfac`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
 CREATE TABLE `animales`.`PEDIDO` ( `ped_codped` INT NOT NULL AUTO_INCREMENT , `ped_codcli` INT NOT NULL , `ped_fecha` TIMESTAMP NOT NULL , PRIMARY KEY (`ped_codped`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
 CREATE TABLE `animales`.`CLIENTE` ( `cli_codcli` INT NOT NULL AUTO_INCREMENT , `cli_email` VARCHAR(100) NULL , `cli_nombre` VARCHAR(100) NULL , `cli_apell1` VARCHAR(100) NULL , `cli_telefn` VARCHAR(100) NULL , `cli_postal` VARCHAR(200) NULL , PRIMARY KEY (`cli_codcli`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
+CREATE TABLE `animales`.`USUARIO` ( `usr_codusr` INT NOT NULL AUTO_INCREMENT , `usr_nombre` VARCHAR(100) NOT NULL , `usr_password` VARCHAR(100) NOT NULL , `usr_admin` INT(1) NOT NULL , `usr_email` VARCHAR(100) NOT NULL , `usr_codcli` INT NULL , `usr_activo` INT(1) NOT NULL , PRIMARY KEY (`usr_codusr`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
+
 
 ALTER TABLE ARTICULO ADD FOREIGN KEY (art_codfam) REFERENCES FAMILIA(fam_codfam);
 ALTER TABLE COMPRA ADD FOREIGN KEY (com_codpro) REFERENCES PROVEEDOR(pro_codpro);
@@ -18,3 +20,4 @@ ALTER TABLE FAMILIA ADD FOREIGN KEY (fam_codiva) REFERENCES IVA(iva_codiva);
 ALTER TABLE PEDIDO ADD FOREIGN KEY (ped_codcli) REFERENCES CLIENTE(cli_codcli);
 ALTER TABLE PREFORMA ADD FOREIGN KEY (pre_codcom) REFERENCES COMPRA(com_codcom);
 ALTER TABLE PREFORMA ADD FOREIGN KEY (pre_codesp) REFERENCES ESPECIFICACION(esp_codesp);
+ALTER TABLE USUARIO ADD FOREIGN KEY (usr_codcli) REFERENCES CLIENTE(cli_codcli);

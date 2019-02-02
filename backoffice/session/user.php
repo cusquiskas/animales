@@ -1,36 +1,40 @@
 <?php
 class Usuario
 {
-	private $usr_id;
+	private $usr_codusr;
 	private $usr_nombre;
-   #private $usr_password;
-	private $usr_admin;
+    private $usr_admin;
 	private $usr_activo;
+	private $usr_email;
 
-	public function getId()     { return $this->usr_id; }
+	public function getId()     { return $this->usr_codusr; }
 	public function getNombre() { return $this->usr_nombre; }
 	public function getAdmin()  { return $this->usr_admin; }
 	public function getActivo() { return $this->usr_activo; }
+	public function getEmail()  { return $this->usr_email; }
 	
 	public function setId($valor)     { $this->usr_id = (string)$valor; }
 	public function setNombre($valor) { $this->usr_nombre = (string)$valor; }
 	public function setAdmin($valor)  { $this->usr_admin = (int)$valor; }
 	public function setActivo($valor) { $this->usr_activo = (int)$valor; }
+	public function setEmail($valor)  { $this->usr_email = (string)$valor; }
 
 	public function setDatos($array)
 	{
-		$this->setId    ($array["usr_id"]);
+		$this->setId    ($array["usr_codusr"]);
 		$this->setNombre($array["usr_nombre"]);
 		$this->setAdmin ($array["usr_admin"]);
 		$this->setActivo($array["usr_activo"]);
+		$this->setEmail ($array["usr_email"]);
 	}
 	public function getDatos()
 	{
 		return array (
-			'usr_id'     => $this->getId(),
+			'usr_codusr' => $this->getId(),
 			'usr_nombre' => $this->getNombre(),
 			'usr_admin'  => $this->getAdmin(),
-			'usr_activo' => $this->getActivo()
+			'usr_activo' => $this->getActivo(),
+			'usr_email'  => $this->getEmail()
 		);
 	}
 
