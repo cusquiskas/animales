@@ -1,6 +1,9 @@
 <?php
 session_start();
 error_reporting(E_ALL & ~E_NOTICE);
+header('Content-Type: application/json; charset=utf-8');
+
+
 require_once 'conect/conf.php';  #información crítica del sistema
 require_once 'conect/dao.php';   #control de comunicación con la base de datos MySQL
 require_once 'session/init.php'; #control de inicialización de las variables de sesión
@@ -13,11 +16,24 @@ if ($_GET)
 {
     $request = $_GET;
     $session = new Usuario();
-    if ($session->getIdMaquinista() != "" || ($request["action"] && $request["action"] === "login"))
+    if ($session->getCodusr() != "" || ($request["action"] && $request["action"] === "login"))
     {
         switch ($request["action"]) {
             case "guardaCliente":
-                $response = array ("success" => true, "code" => 0, "description" => "Petición aceptada", "type" => "applicationResponse", "data" => array ());
+                require_once 'tables/cliente.php';
+                $cliente = new cliente();
+                if ($cliente->save($_GET) === 0)
+                    $response = array ("success" => true, "code" => 0, "description" => "Petición aceptada", "type" => "applicationResponse", "data" => $cliente->getArray());
+                else
+                    $response = array ("success" => false, "code" => -1, "description" => "Petición rechazada", "type" => "applicationResponse", "data" => $cliente->getListaErrores());
+                break;
+            case "datosCliente":
+                require_once 'tables/cliente.php';
+                $cliente = new cliente();
+                if ($cliente->give($_GET) === 0)
+                    $response = array ("success" => true, "code" => 0, "description" => "Petición aceptada", "type" => "applicationResponse", "data" => $cliente->getArray());
+                else
+                    $response = array ("success" => false, "code" => -1, "description" => "Petición rechazada", "type" => "applicationResponse", "data" => $cliente->getListaErrores());
                 break;
             case "login":
                 $session->setDatos($request);
