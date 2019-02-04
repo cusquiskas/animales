@@ -24,3 +24,4 @@ ALTER TABLE USUARIO ADD FOREIGN KEY (usr_codcli) REFERENCES CLIENTE(cli_codcli);
 
 # portátil  2019.02.03
 # hostinger 2019.02.04
+# casa      2019.02.04
