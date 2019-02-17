@@ -86,7 +86,7 @@ class FormController {
 
         if (!abort) {
             let me = this;
-            this.loading(Select.name, true);
+            //this.loading(Select.name, true);
             this.ajax({
                 extra: me,
                 action: Select.getAttribute('frC-Store'),
@@ -95,7 +95,7 @@ class FormController {
                     form: me
                 },
                 function: function (s, d, e) {
-                    me.loading(Select.name, false);
+                    //me.loading(Select.name, false);
                     if (s) {
                         let root = Select.getAttribute('frC-indexResponse').split('$');
                         let raiz = root[0].split(':');
@@ -267,7 +267,7 @@ class FormController {
         if (errores.length > 0) this.formulario.getAttribute('frC-CallBack') && window[this.formulario.getAttribute('frC-CallBack')](false, errores, { form: this, status: 'validation' });
         else {
             if (this.formulario.getAttribute('action') !== null) {
-                this.loading(this.formulario.name, true);
+                //this.loading(this.formulario.name, true);
                 this.ajax({
                     action: this.formulario.action,
                     method: this.formulario.method,
@@ -278,7 +278,7 @@ class FormController {
                     contentType: this.formulario.getAttribute('Content-Type') || 'application/json',
                     autoXSID: !(this.formulario.getAttribute('frC-noSesion') && this.formulario.getAttribute('frC-noSesion') === 'true'),
                     function: function (s, d, e) {
-                        me.loading(me.formulario.name, false);
+                        //me.loading(me.formulario.name, false);
                         if (!Moduls.relogin.lanzado) {
                             if ((!s && (d.type === 'getSesion' || d.type === 'getSession' || d.type === 'getSessionException') && (d.code === 3 || d.code === 3.0 || d.code === '3'))) {
                                 me.relogin(me.modul);
