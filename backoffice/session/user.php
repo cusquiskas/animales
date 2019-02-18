@@ -56,7 +56,7 @@ class Usuario
 	{
 		$array = array (
 			0 => array ("tipo" => "s", "dato" => $this->getEmail()),
-			1 => array ("tipo" => "s", "dato" => $_GET['usr_password'])
+			1 => array ("tipo" => "s", "dato" => $_POST['usr_password'])
 		  );
 		  $query = "select count(0) cnt
 						 from USUARIO

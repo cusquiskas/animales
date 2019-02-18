@@ -11,10 +11,10 @@ require_once 'session/user.php'; #control de Usuario de sesión
 
 # $response tiene que ser una clase, obviamente
 $response = array ("success" => false, "code" => -1001, "description" => "La petición no ha devuelo nada", "type" => "applicationError");
-# OJO => $pas = $_GET['id_password']; en session/user.php
-if ($_GET)
+# OJO => $pas = $_POST['id_password']; en session/user.php
+if ($_POST)
 {
-    $request = $_GET;
+    $request = $_POST;
     $session = new Usuario();
     if ($session->getCodusr() != "" || ($request["action"] && $request["action"] === "login"))
     {
@@ -22,7 +22,7 @@ if ($_GET)
             case "guardaCliente":
                 require_once 'tables/cliente.php';
                 $cliente = new cliente();
-                if ($cliente->save($_GET) === 0)
+                if ($cliente->save($_POST) === 0)
                     $response = array ("success" => true, "code" => 0, "description" => "Petición aceptada", "type" => "applicationResponse", "data" => $cliente->getArray());
                 else
                     $response = array ("success" => false, "code" => -1, "description" => "Petición rechazada", "type" => "applicationResponse", "data" => $cliente->getListaErrores());
@@ -30,7 +30,7 @@ if ($_GET)
             case "datosCliente":
                 require_once 'tables/cliente.php';
                 $cliente = new cliente();
-                if ($cliente->give($_GET) === 0)
+                if ($cliente->give($_POST) === 0)
                     $response = array ("success" => true, "code" => 0, "description" => "Petición aceptada", "type" => "applicationResponse", "data" => $cliente->getArray());
                 else
                     $response = array ("success" => false, "code" => -1, "description" => "Petición rechazada", "type" => "applicationResponse", "data" => $cliente->getListaErrores());
