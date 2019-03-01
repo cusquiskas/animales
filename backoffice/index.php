@@ -16,9 +16,9 @@ if ($_POST)
 {
     $request = $_POST;
     $session = new Usuario();
-    if ($session->getCodusr() != "" || ($request["action"] && $request["action"] === "login"))
+    if ($session->getCodusr() != "" || ($request["accion"] && $request["accion"] === "login"))
     {
-        switch ($request["action"]) {
+        switch ($request["accion"]) {
             case "guardaCliente":
                 require_once 'tables/cliente.php';
                 $cliente = new cliente();

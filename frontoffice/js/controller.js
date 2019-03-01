@@ -264,34 +264,34 @@ class FormController {
     executeForm() {
         let me = this;
         let errores = this.validate();
-        if (errores.length > 0) this.formulario.getAttribute('frC-CallBack') && window[this.formulario.getAttribute('frC-CallBack')](false, errores, { form: this, status: 'validation' });
-        else {
+        if (errores.length > 0) {
+            let funcion;
+            funcion = this.formulario.getAttribute('frC-CallBack') && this.modul.script[this.formulario.getAttribute('frC-CallBack')]
+            if (!funcion) funcion = this.formulario.getAttribute('frC-CallBack') && window[this.formulario.getAttribute('frC-CallBack')];
+            if (funcion) funcion(false, errores, { form: this, status: 'validation' });
+        } else {
             if (this.formulario.getAttribute('action') !== null) {
                 //this.loading(this.formulario.name, true);
                 this.ajax({
                     action: this.formulario.action,
                     method: this.formulario.method,
                     params: this.get(),
-                    extra: {
-                        form: me
-                    },
-                    contentType: this.formulario.getAttribute('Content-Type') || 'application/json',
-                    autoXSID: !(this.formulario.getAttribute('frC-noSesion') && this.formulario.getAttribute('frC-noSesion') === 'true'),
+                    extra: { form: me },
+                    contentType: this.formulario.getAttribute('Content-Type') || 'application/x-www-form-urlencoded',
+                    autoXSID: false,
                     function: function (s, d, e) {
                         //me.loading(me.formulario.name, false);
-                        if (!Moduls.relogin.lanzado) {
-                            if ((!s && (d.type === 'getSesion' || d.type === 'getSession' || d.type === 'getSessionException') && (d.code === 3 || d.code === 3.0 || d.code === '3'))) {
-                                me.relogin(me.modul);
-                            } else {
-                                let t = me.tablas ? me.tablas : [];
-                                for(let i = 0; i < t.length; i++) t[i].renderizar(d);
-                                me.formulario.getAttribute('frC-CallBack') && window[me.formulario.getAttribute('frC-CallBack')](s, d, e);
-                            }
-                        }
+                        let funcion;
+                        funcion = me.formulario.getAttribute('frC-CallBack') && me.modul.script[me.formulario.getAttribute('frC-CallBack')]
+                        if (!funcion) funcion = this.formulario.getAttribute('frC-CallBack') && window[me.formulario.getAttribute('frC-CallBack')];
+                        if (funcion) funcion(s, d, e);
                     }
                 });
             } else {
-                this.formulario.getAttribute('frC-CallBack') && window[this.formulario.getAttribute('frC-CallBack')](true, {}, { form: me });
+                let funcion;
+                funcion = this.formulario.getAttribute('frC-CallBack') && this.modul.script[this.formulario.getAttribute('frC-CallBack')]
+                if (!funcion) funcion = this.formulario.getAttribute('frC-CallBack') && window[this.formulario.getAttribute('frC-CallBack')];
+                if (funcion) funcion(true, {}, { form: me });
             }
         }
     }
@@ -395,7 +395,7 @@ class FormController {
         this.parametros = {};
         this.masParametros(formulario.elements);
         this.tablas = [];
-        this.masTablas(formulario);
+        //this.masTablas(formulario);
         this.masInjertos(formulario.getElementsByTagName('frC-Graft'));
         this.cargaSelects(formulario.getElementsByTagName('select'));
         formulario.getAttribute('frC-AutoLoad') && formulario.getAttribute('frC-AutoLoad') === 'true' && this.executeForm();
@@ -409,8 +409,8 @@ class ModulController {
     }
 
     return(url) {
-        let VERSION = this.controlVersion(url);
-        if (VERSION !== false) url = url.replace('.html', '.' + VERSION + '.html');
+        //let VERSION = this.controlVersion(url);
+        //if (VERSION !== false) url = url.replace('.html', '.' + VERSION + '.html');
         let me = this,
             direcc = url,
             result = "";
@@ -426,45 +426,49 @@ class ModulController {
         return typeof result == 'string' ? result : result.outerHTML;
     }
 
-    enlazarScript(datos, script, donde) {
-        if (script === true) {
-            let url = datos.slice(0, -4) + 'js';
+    enlazarScript(objeto, donde) {
+        if (objeto.script === true) {
+            let url = objeto.url.slice(0, -4) + 'js';
             let script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = url;
             $(donde).append(script);
+            if (typeof objeto.class === "string" && objeto.class!=="") {
+                let clase = eval(objeto.class);
+                this.script = new clase();
+            }
         }
     }
 
-    controlVersion(url) {
-        if (url.substr(0,16)==='/formacion/papp/') {
-            let d = new Date;
-            if (!VERSION_FORMACION) {
-                $.ajax({
-                    url: '/formacion/papp/js/dependencias.js?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds(),
-                    method: 'GET',
-                    async: false,
-                    success: function (data, status) { eval(data); }
-                });
-            }
-            return VERSION_FORMACION;
-        }
-        if (url.substr(0,11)==='/portalapp/') {
-            return VERSION_PORTAL;
-        }
-        return false;
-    }
+    // controlVersion(url) {
+    //     if (url.substr(0,16)==='/formacion/papp/') {
+    //         let d = new Date;
+    //         if (!VERSION_FORMACION) {
+    //             $.ajax({
+    //                 url: '/formacion/papp/js/dependencias.js?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds(),
+    //                 method: 'GET',
+    //                 async: false,
+    //                 success: function (data, status) { eval(data); }
+    //             });
+    //         }
+    //         return VERSION_FORMACION;
+    //     }
+    //     if (url.substr(0,11)==='/portalapp/') {
+    //         return VERSION_PORTAL;
+    //     }
+    //     return false;
+    // }
 
     load(objeto) {
         let me = this;
-        let VERSION = this.controlVersion(objeto.url);
+        //let VERSION = this.controlVersion(objeto.url);
         $(this.name).empty();
-        DataTable.cleanFixedHeaders();
-        if (VERSION !== false) objeto.url = objeto.url.replace('.html', '.' + VERSION + '.html');
+        //DataTable.cleanFixedHeaders();
+        //if (VERSION !== false) objeto.url = objeto.url.replace('.html', '.' + VERSION + '.html');
         $.get(objeto.url, function (data, status) {
-            data = (!objeto.url.split('?')[1]) ? data : me.secciona(data, objeto.url.split('?')[1]);
+            //data = (!objeto.url.split('?')[1]) ? data : me.secciona(data, objeto.url.split('?')[1]);
             $(me.name).append(data);
-            me.enlazarScript(objeto.url, objeto.script, me.name);
+            me.enlazarScript(objeto, me.name);
             me.child = [];
             let Template = me.template.getElementsByTagName('template');
             for (let i = 0; i < Template.length; i++) me.child[Template[i].id] = new ModulController(Template[i], me);

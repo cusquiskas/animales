@@ -38,28 +38,28 @@ function peticionAjax() {
         dato.contentType = (typeof obj.parametros == 'undefined') ? dato.contentType : (typeof obj.parametros.contentType == 'undefined') ? dato.contentType : obj.parametros.contentType;
         dato.caracteres = (typeof obj.caracteres == 'undefined') ? dato.caracteres : obj.caracteres;
         dato.caracteres = ((dato.caracteres != '' && dato.caracteres != null) ? 'charset=' + dato.caracteres : '');
-        dato.canal = dato.canal || obj.canal || (obj.parametros && obj.parametros.xchn) || (dato.direccion.split('.'))[(dato.direccion.split('.')).length - 1].toUpperCase() || '';
-        dato.authorization = (typeof obj.authorization == 'undefined') ? dato.authorization : obj.authorization;
-        if (dato.canal.split('?').length > 1) {   // ñapa para las peticiones get
-            let par = dato.canal.split('?')[1].split('&');
-            for (let i = 0; i < par.length; i++) {
-                if (par[i].split('=')[0].toUpperCase() == 'XCHN') {
-                    dato.canal = par[i].split('=')[1]; break;
-                }
-            }
-        }
-        dato.canal = dato.canal.split('?')[0].toUpperCase();
+        //dato.canal = dato.canal || obj.canal || (obj.parametros && obj.parametros.xchn) || (dato.direccion.split('.'))[(dato.direccion.split('.')).length - 1].toUpperCase() || '';
+        //dato.authorization = (typeof obj.authorization == 'undefined') ? dato.authorization : obj.authorization;
+        // if (dato.canal.split('?').length > 1) {   // ñapa para las peticiones get
+        //     let par = dato.canal.split('?')[1].split('&');
+        //     for (let i = 0; i < par.length; i++) {
+        //         if (par[i].split('=')[0].toUpperCase() == 'XCHN') {
+        //             dato.canal = par[i].split('=')[1]; break;
+        //         }
+        //     }
+        // }
+        // dato.canal = dato.canal.split('?')[0].toUpperCase();
         if (window.XMLHttpRequest) { this.xmlhttp = new XMLHttpRequest(); }
         else { this.xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); }
         if (dato.asincrono) {
             this.xmlhttp.onreadystatechange = this.respuesta;
         }
 
-        if(!dato.authorization) {
-            try {
-                if (dato.autoXSID) dato.parametros.xsid = dato.parametros.xsid || top.SESION_ID || localStorage.getItem("SESION_ID") || sessionStorage.getItem("SESION_ID") || (opener && opener.top.SESION_ID) || getValue('xsid').cambia('#', '') || getValue('xsid', parent).cambia('#', '') || getValue('xsid', opener).cambia('#', '') || '';
-            } catch (e) { }
-        }
+        // if(!dato.authorization) {
+        //     try {
+        //         if (dato.autoXSID) dato.parametros.xsid = dato.parametros.xsid || top.SESION_ID || localStorage.getItem("SESION_ID") || sessionStorage.getItem("SESION_ID") || (opener && opener.top.SESION_ID) || getValue('xsid').cambia('#', '') || getValue('xsid', parent).cambia('#', '') || getValue('xsid', opener).cambia('#', '') || '';
+        //     } catch (e) { }
+        // }
 
         for (chd in dato.parametros) { cad += "&" + chd + "=" + escape(String(dato.parametros[chd])); } cad = cad.substr(1);
         if (dato.metodo == 'POST') {
