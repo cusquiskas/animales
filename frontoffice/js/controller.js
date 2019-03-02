@@ -256,8 +256,7 @@ class FormController {
             autoXSID: (objeto.autoXSID === false ? false : true),
             caracteres: 'utf-8',
             extra: objeto.extra || {},
-            retorno: objeto.function,
-            authorization: objeto.authorization || this.authorization
+            retorno: objeto.function
         });
     }
 
@@ -394,8 +393,6 @@ class FormController {
         this.modul = template;
         this.parametros = {};
         this.masParametros(formulario.elements);
-        this.tablas = [];
-        //this.masTablas(formulario);
         this.masInjertos(formulario.getElementsByTagName('frC-Graft'));
         this.cargaSelects(formulario.getElementsByTagName('select'));
         formulario.getAttribute('frC-AutoLoad') && formulario.getAttribute('frC-AutoLoad') === 'true' && this.executeForm();
@@ -404,13 +401,7 @@ class FormController {
 
 class ModulController {
 
-    secciona(data, param) {
-        return $("div." + param, data)[0] || '';
-    }
-
     return(url) {
-        //let VERSION = this.controlVersion(url);
-        //if (VERSION !== false) url = url.replace('.html', '.' + VERSION + '.html');
         let me = this,
             direcc = url,
             result = "";
@@ -419,7 +410,7 @@ class ModulController {
             method: 'GET',
             async: false,
             success: function (data, status) {
-                result = (!direcc.split('?')[1]) ? data : me.secciona(data, direcc.split('?')[1]);
+                result = data;
             }
         });
 
@@ -431,50 +422,35 @@ class ModulController {
             let url = objeto.url.slice(0, -4) + 'js';
             let script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = url;
+            script.src = url+'?'+sysdate('yyyymmdd');
             $(donde).append(script);
-            if (typeof objeto.class === "string" && objeto.class!=="") {
+            if (typeof objeto.class === "string" && objeto.class !== "") {
                 let clase = eval(objeto.class);
                 this.script = new clase();
             }
         }
     }
 
-    // controlVersion(url) {
-    //     if (url.substr(0,16)==='/formacion/papp/') {
-    //         let d = new Date;
-    //         if (!VERSION_FORMACION) {
-    //             $.ajax({
-    //                 url: '/formacion/papp/js/dependencias.js?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds(),
-    //                 method: 'GET',
-    //                 async: false,
-    //                 success: function (data, status) { eval(data); }
-    //             });
-    //         }
-    //         return VERSION_FORMACION;
-    //     }
-    //     if (url.substr(0,11)==='/portalapp/') {
-    //         return VERSION_PORTAL;
-    //     }
-    //     return false;
-    // }
-
     load(objeto) {
         let me = this;
-        //let VERSION = this.controlVersion(objeto.url);
         $(this.name).empty();
-        //DataTable.cleanFixedHeaders();
-        //if (VERSION !== false) objeto.url = objeto.url.replace('.html', '.' + VERSION + '.html');
-        $.get(objeto.url, function (data, status) {
-            //data = (!objeto.url.split('?')[1]) ? data : me.secciona(data, objeto.url.split('?')[1]);
+        $.get(objeto.url+'?'+sysdate('yyyymmdd'), function (data, status) {
             $(me.name).append(data);
+            let yo = me,
+                nombre = 'get'+me.template.id.substr(0,1).toUpperCase()+me.template.id.substr(1).toLowerCase();
+            Moduls[nombre] = function () { return yo; };
             me.enlazarScript(objeto, me.name);
+            if (me.script) Moduls[nombre]().getScript = function () { return yo.script; };
             me.child = [];
             let Template = me.template.getElementsByTagName('template');
             for (let i = 0; i < Template.length; i++) me.child[Template[i].id] = new ModulController(Template[i], me);
             me.Forms = [];
             let formularios = me.template.getElementsByTagName('form');
             for (let i = 0; i < formularios.length; i++) if (formularios[i].name) me.Forms[formularios[i].name] = new FormController(formularios[i], me);
+            if (me.Forms) {
+                Moduls[nombre]().getForms = function () { return yo.Forms; };
+                Moduls[nombre]().getForm = function (name) { return yo.Forms[name]; };
+            }
         });
     }
 
@@ -488,5 +464,6 @@ class ModulController {
 let Moduls = [],
     Template = document.getElementsByTagName('template');
 for (let i = 0; i < Template.length; i++) Moduls[Template[i].id] = new ModulController(Template[i], null);
+Template = undefined;
 Moduls.Forms = [];
 for (let i = 0; i < document.forms.length; i++) Moduls.Forms[document.forms[i].name] = new FormController(document.forms[i], null);
