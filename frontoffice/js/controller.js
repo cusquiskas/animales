@@ -418,32 +418,48 @@ class ModulController {
     }
 
     enlazarScript(objeto, donde) {
+        delete this.script;
         if (objeto.script === true) {
             let url = objeto.url.slice(0, -4) + 'js';
             let script = document.createElement('script');
+            let d = new Date;
             script.type = 'text/javascript';
-            script.src = url+'?'+sysdate('yyyymmdd');
+            script.src = url+'?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds();
             $(donde).append(script);
             if (typeof objeto.class === "string" && objeto.class !== "") {
                 let clase = eval(objeto.class);
                 this.script = new clase();
+            } else {
+                try {
+                    let clase = eval(url.substr(url.lastIndexOf('/')+1).slice(0,-3));
+                } catch (e) {}
+                try {
+                    if (clase) this.script = new clase();
+                } catch (e) { throw e; }
             }
         }
     }
 
     load(objeto) {
         let me = this;
+        let d = new Date;
         $(this.name).empty();
-        $.get(objeto.url+'?'+sysdate('yyyymmdd'), function (data, status) {
+        $.get(objeto.url+'?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds(), function (data, status) {
             $(me.name).append(data);
             let yo = me,
-                nombre = 'get'+me.template.id.substr(0,1).toUpperCase()+me.template.id.substr(1).toLowerCase();
-            Moduls[nombre] = function () { return yo; };
-            me.enlazarScript(objeto, me.name);
-            if (me.script) Moduls[nombre]().getScript = function () { return yo.script; };
+                nombre2, nombre = 'get'+me.template.id.substr(0,1).toUpperCase()+me.template.id.substr(1).toLowerCase();
+            //Moduls[nombre] = function () { return yo; };
             me.child = [];
             let Template = me.template.getElementsByTagName('template');
-            for (let i = 0; i < Template.length; i++) me.child[Template[i].id] = new ModulController(Template[i], me);
+            if (Template) {
+                for (let i = 0; i < Template.length; i++) {
+                    me.child[Template[i].id] = new ModulController(Template[i], me);
+                    nombre2 = 'get'+Template[i].id.substr(0,1).toUpperCase()+Template[i].id.substr(1).toLowerCase();
+                    Moduls[nombre2] = function () { return yo.child[Template[i].id]; };
+                }
+            }
+            me.enlazarScript(objeto, me.name);
+            if (me.script) Moduls[nombre]().getScript = function () { return yo.script; };
             me.Forms = [];
             let formularios = me.template.getElementsByTagName('form');
             for (let i = 0; i < formularios.length; i++) if (formularios[i].name) me.Forms[formularios[i].name] = new FormController(formularios[i], me);
@@ -463,7 +479,12 @@ class ModulController {
 
 let Moduls = [],
     Template = document.getElementsByTagName('template');
-for (let i = 0; i < Template.length; i++) Moduls[Template[i].id] = new ModulController(Template[i], null);
-Template = undefined;
+if ( Template){
+    for (let i = 0; i < Template.length; i++) {
+        Moduls[Template[i].id] = new ModulController(Template[i], null);
+        Moduls['get'+Template[i].id.substr(0,1).toUpperCase()+Template[i].id.substr(1).toLowerCase()] = function () { return Moduls[Template[i].id]; };
+    }
+}
+//Template = undefined;
 Moduls.Forms = [];
 for (let i = 0; i < document.forms.length; i++) Moduls.Forms[document.forms[i].name] = new FormController(document.forms[i], null);
