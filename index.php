@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Animales Fantásticos y qué darles de comer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="frontoffice/cs/style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="frontoffice/css/style.css">
 </head>
 <body>
     <template id="header"></template>
