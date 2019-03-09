@@ -1,4 +1,4 @@
-class home {
+var home = class {
 
     mensaje(s, d, e) {
         console.log('home.js -> mensaje '+s);

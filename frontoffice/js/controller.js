@@ -423,15 +423,16 @@ class ModulController {
             let url = objeto.url.slice(0, -4) + 'js';
             let script = document.createElement('script');
             let d = new Date;
+            let clase = false;
             script.type = 'text/javascript';
             script.src = url+'?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds();
             $(donde).append(script);
             if (typeof objeto.class === "string" && objeto.class !== "") {
-                let clase = eval(objeto.class);
+                clase = eval(objeto.class);
                 this.script = new clase();
             } else {
                 try {
-                    let clase = eval(url.substr(url.lastIndexOf('/')+1).slice(0,-3));
+                    clase = eval(url.substr(url.lastIndexOf('/')+1).slice(0,-3));
                 } catch (e) {}
                 try {
                     if (clase) this.script = new clase();

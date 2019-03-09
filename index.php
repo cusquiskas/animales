@@ -14,8 +14,8 @@
     
     <script src="<?php echo Cache::ruta('frontoffice/js/jquery-3.3.1.min.js'); ?>"></script>
     <script src="<?php echo Cache::ruta('frontoffice/js/funciones.js');    ?>"></script>
-    <script src="<?php echo Cache::ruta('frontoffice/js/controller.js');   ?>"></script>
     <script src="<?php echo Cache::ruta('frontoffice/js/peticionAjax.js'); ?>"></script>
+    <script src="<?php echo Cache::ruta('frontoffice/js/controller.js');   ?>"></script>
     <script src="<?php echo Cache::ruta('frontoffice/js/scripts.js');      ?>"></script>
 </body>
 </html>
