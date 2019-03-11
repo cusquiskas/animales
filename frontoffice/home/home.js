@@ -8,6 +8,6 @@ var home = class {
 
     constructor () {
         console.log('home.js -> constructor');
-        Moduls.getProductos().load({ url: '/animales/frontoffice/home/componentes/producto/producto.html', script: false });
+        Moduls.getProductos().load({ url: '/animales/frontoffice/home/componentes/producto/producto.html', script: true });
     }
 }

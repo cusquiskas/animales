@@ -94,7 +94,7 @@
 
         public function give($array) {
             $this->emptyClass();
-            $this->clearArray();
+            #$this->clearArray();
             $this->setDatos($array);
             return $this->select();
         }
