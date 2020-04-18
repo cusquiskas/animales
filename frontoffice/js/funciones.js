@@ -469,8 +469,8 @@ function getOption(s, v, p, i) {
   return null;
 }
 function getSelectText(s, v, i) {
-  let i = getSelectIndex(s, v, i);
-  return (i != -1) ? s.options[i].text : '';
+  let y = getSelectIndex(s, v, i);
+  return (y != -1) ? s.options[y].text : '';
 }
 function getSelectIndex(s, v, i) {
   if (!s.options) return -1; else s = s.options;

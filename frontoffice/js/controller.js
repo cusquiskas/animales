@@ -425,7 +425,7 @@ class ModulController {
             let d = new Date;
             let clase = false;
             script.type = 'text/javascript';
-            script.src = url+'?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds();
+            script.src = url+'?'+d.getFullYear()+d.getMonth()+d.getDay()+d.getHours()+d.getMinutes()+d.getSeconds();
             $(donde).append(script);
             if (typeof objeto.class === "string" && objeto.class !== "") {
                 clase = eval(objeto.class);
@@ -445,7 +445,7 @@ class ModulController {
         let me = this;
         let d = new Date;
         $(this.name).empty();
-        $.get(objeto.url+'?'+sysdate('yyyymmdd')+d.getHours()+d.getMinutes()+d.getSeconds(), function (data, status) {
+        $.get(objeto.url+'?'+d.getFullYear()+d.getMonth()+d.getDay()+d.getHours()+d.getMinutes()+d.getSeconds(), function (data, status) {
             $(me.name).append(data);
             let yo = me,
                 nombre2, nombre = 'get'+me.template.id.substr(0,1).toUpperCase()+me.template.id.substr(1).toLowerCase();

@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Animales Fantásticos y qué darles de comer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="frontoffice/css/style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo Cache::ruta('frontoffice/css/style.css'); ?>">
 </head>
 <body>
-    <template id="header"></template>
-    <template id="app"></template>
+    <template style="border: 1px solid red" id="header"></template>
+    <template style="border: 1px solid blue" id="app"></template>
     
     <script src="<?php echo Cache::ruta('frontoffice/js/jquery-3.3.1.min.js'); ?>"></script>
     <script src="<?php echo Cache::ruta('frontoffice/js/funciones.js');    ?>"></script>
