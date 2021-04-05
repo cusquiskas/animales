@@ -443,7 +443,7 @@ class ModulController {
 
     load(objeto) {
         let me = this;
-        let d = new Date;
+        let d = Moduls.constants.initDate; //de este modo se podrá cachear la información hasta la recarga del sitio. 
         $(this.name).empty();
         $.get(objeto.url+'?'+d.getFullYear()+d.getMonth()+d.getDay()+d.getHours()+d.getMinutes()+d.getSeconds(), function (data, status) {
             $(me.name).append(data);
@@ -460,7 +460,7 @@ class ModulController {
                 }
             }
             me.enlazarScript(objeto, me.name);
-            if (me.script) Moduls[nombre]().getScript = function () { return yo.script; };
+            if (me.script && Moduls[nombre]()) Moduls[nombre]().getScript = function () { return yo.script; };
             me.Forms = [];
             let formularios = me.template.getElementsByTagName('form');
             for (let i = 0; i < formularios.length; i++) if (formularios[i].name) me.Forms[formularios[i].name] = new FormController(formularios[i], me);

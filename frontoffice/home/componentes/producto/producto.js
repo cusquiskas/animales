@@ -6,6 +6,6 @@ var producto = class {
     
     constructor () {
         console.log('producto.js -> constructor');
-        Moduls.getProductos().getForm('listaArticulos').executeForm();
+        Moduls.getProducto().getForm('listaArticulos').executeForm();
     }
 }
