@@ -1,3 +1,19 @@
+class ConfiguracionSistema {
+   private $host = 'localhost';
+   private $user = 'animales';
+   private $pass = 'FhbqsXsGqfqLcSRW';
+   private $apli = 'animales';
+   
+   private $home = '/opt/lampp/htdocs/Cuentas/animales';
+   
+   public function getHost() { return $this->host; }
+   public function getUser() { return $this->user; }
+   public function getPass() { return $this->pass; }
+   public function getApli() { return $this->apli; }
+   
+   public function getHome() { return $this->home; }
+}
+
 CREATE TABLE `ARTICULO` ( `art_codart` INT NOT NULL AUTO_INCREMENT , `art_nombre` VARCHAR(200) NOT NULL , `art_codfam` INT NOT NULL , PRIMARY KEY (`art_codart`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
 CREATE TABLE `FAMILIA` ( `fam_codfam` INT NOT NULL AUTO_INCREMENT , `fam_codiva` INT NOT NULL , `fam_nombre` VARCHAR(200) NOT NULL , PRIMARY KEY (`fam_codfam`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
 CREATE TABLE `IVA` ( `iva_codiva` INT NOT NULL AUTO_INCREMENT , `iva_nombre` VARCHAR(200) NOT NULL , `iva_valor` INT NOT NULL , `iva_desde` DATE NOT NULL , `iva_hasta` DATE NOT NULL , PRIMARY KEY (`iva_codiva`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_bin;
@@ -21,6 +37,12 @@ ALTER TABLE PEDIDO ADD FOREIGN KEY (ped_codcli) REFERENCES CLIENTE(cli_codcli);
 ALTER TABLE PREFORMA ADD FOREIGN KEY (pre_codcom) REFERENCES COMPRA(com_codcom);
 ALTER TABLE PREFORMA ADD FOREIGN KEY (pre_codesp) REFERENCES ESPECIFICACION(esp_codesp);
 ALTER TABLE USUARIO ADD FOREIGN KEY (usr_codcli) REFERENCES CLIENTE(cli_codcli);
+
+INSERT INTO `IVA` (`iva_codiva`, `iva_nombre`, `iva_valor`, `iva_desde`, `iva_hasta`) VALUES (NULL, 'alimentación', '11', '2021-04-01', '9999-12-31');
+INSERT INTO `FAMILIA` (`fam_codfam`, `fam_codiva`, `fam_nombre`) VALUES (NULL, '1', 'Alimentación');
+INSERT INTO `ARTICULO` (`art_codart`, `art_nombre`, `art_codfam`) VALUES (NULL, 'saco de pienso', '1');
+INSERT INTO `ESPECIFICACION` (`esp_codesp`, `esp_codart`, `esp_peso`, `esp_color`, `esp_importe`, `esp_beneficio`) VALUES (NULL, '1', '4', NULL, '10', NULL), (NULL, '1', '9', NULL, '15', NULL);
+
 
 # portátil  2019.02.03
 # hostinger 2019.02.04

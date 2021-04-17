@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 header('Content-Type: application/json; charset=utf-8');
 
 require_once 'conect/conf.php';  //información crítica del sistema
@@ -19,11 +19,12 @@ if ($_POST) {
             require 'tables/articulo.php';
             $articulo = new Articulo();
             $lista = $articulo->give($request);
+            #die (json_encode($lista));
             if ($request['todos'] && $request['todos'] = 'S') {
                 require 'tables/especificacion.php';
                 $especificacion = new Especificacion();
-                for ($i = 0; $i < count($articulo); ++$i) {
-                    $articulo[$i]['especificacion'] = $especificacion->give(['esp_codart' => $articulo[$i]['art_codart']]);
+                for ($i = 0; $i < count($lista); ++$i) {
+                    $lista[$i]['especificacion'] = $especificacion->give(['esp_codart' => $lista[$i]['art_codart']]);
                 }
             }
             break;
