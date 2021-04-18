@@ -122,18 +122,21 @@
         private function select()
         {
             $datos = [
-                0 => ['tipo' => 'i', 'dato' => $this->esp_codart],
-                1 => ['tipo' => 'd', 'dato' => $this->esp_peso],
+                0 => ['tipo' => 'i', 'dato' => $this->esp_codart], /*,
+                1 => ['tipo' => 'i', 'dato' => $this->esp_peso],
                 2 => ['tipo' => 'i', 'dato' => $this->esp_codesp],
+                3 => ['tipo' => 's', 'dato' => $this->esp_color],
+                4 => ['tipo' => 'i', 'dato' => $this->esp_importe],
+                5 => ['tipo' => 'i', 'dato' => $this->esp_beneficio],*/
             ];
             $query = 'select *
-                        from ARTICULO
-                       where esp_codart = IFNULL(?, esp_codart)
-                         and esp_peso = IFNULL(?, esp_peso)
-                         and esp_codesp = IFNULL(?, esp_codesp)
-                         and esp_color = IFNULL(?, esp_color)
-                         and esp_importe = IFNULL(?, esp_importe)
-                         and esp_beneficio = IFNULL (?, esp_beneficio)';
+                        from ESPECIFICACION
+                       where esp_codart = IFNULL(?, esp_codart)';
+            /*and esp_peso = IFNULL(?, esp_peso)
+              and esp_codesp = IFNULL(?, esp_codesp)
+              and esp_color = IFNULL(?, esp_color)
+              and esp_importe = IFNULL(?, esp_importe)
+              and esp_beneficio = IFNULL (?, esp_beneficio)*/
             $link = new ConexionSistema();
             $this->array = $link->consulta($query, $datos);
             $link->close();
@@ -156,7 +159,7 @@
         public function give($array)
         {
             $this->emptyClass();
-            $this->clearArray();
+            //$this->clearArray();
             $this->setDatos($array);
 
             return $this->select();

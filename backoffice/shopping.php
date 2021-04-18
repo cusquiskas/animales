@@ -19,15 +19,28 @@ if ($_POST) {
             require 'tables/articulo.php';
             $articulo = new Articulo();
             $lista = $articulo->give($request);
-            #die (json_encode($lista));
+            if ($lista == 0) {
+                $lista = $articulo->getArray();
+            } else {
+                die(['success' => false, 'code' => -1001, 'description' => 'Error al leer artículos', 'type' => 'applicationError']);
+            }
             if ($request['todos'] && $request['todos'] = 'S') {
                 require 'tables/especificacion.php';
                 $especificacion = new Especificacion();
                 for ($i = 0; $i < count($lista); ++$i) {
-                    $lista[$i]['especificacion'] = $especificacion->give(['esp_codart' => $lista[$i]['art_codart']]);
+                    $sublista = $especificacion->give(['esp_codart' => $lista[$i]['art_codart']]);
+                    if ($sublista == 0) {
+                        $lista[$i]['especificacion'] = $especificacion->getArray();
+                    } else {
+                        die(['success' => false, 'code' => -1001, 'description' => 'Error al leer especificaciones', 'type' => 'applicationError']);
+                    }
                 }
+            }
+            if (count($lista) > 0) {
+                $response = ['success' => true, 'code' => 0, 'datos' => $lista, 'type' => 'application/JSON'];
             }
             break;
     }
 }
+
 echo json_encode($response);
