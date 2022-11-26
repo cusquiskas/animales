@@ -4,10 +4,10 @@ session_start();
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 header('Content-Type: application/json; charset=utf-8');
 
-require_once 'conect/conf.php';  //información crítica del sistema
-require_once 'conect/dao.php';   //control de comunicación con la base de datos MySQL
-require_once 'session/init.php'; //control de inicialización de las variables de sesión
-require_once 'session/user.php'; //control de Usuario de sesión
+ require_once 'conect/conf.php';  //información crítica del sistema
+ require_once 'conect/dao.php';   //control de comunicación con la base de datos MySQL
+ require_once 'session/init.php'; //control de inicialización de las variables de sesión
+#require_once 'session/user.php'; //control de Usuario de sesión
 
 // $response tiene que ser una clase, obviamente
 $response = ['success' => false, 'code' => -1001, 'description' => 'La petición no ha devuelo nada', 'type' => 'applicationError'];

@@ -1,0 +1,21 @@
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+            <h3>Introduce tu información de usuario</h3>
+            <form name="validacion" frC-Callback="validacion" frC-Autoload="false" method="POST" action="/animales/backoffice/session/user.php">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Email *" name="user" value="" required/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="pass" placeholder="Contraseña *" value="" required/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btnSubmit" name="accion" value="login">login</button>
+                </div>
+                <div class="form-group">
+                    <a href="#" class="ForgetPwd">¡Quiero ser cliente!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

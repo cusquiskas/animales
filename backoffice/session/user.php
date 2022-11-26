@@ -1,4 +1,57 @@
 <?php
+
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+header('Content-Type: application/json; charset=utf-8');
+
+require_once '../conect/conf.php';  //información crítica del sistema
+require_once '../conect/dao.php';   //control de comunicación con la base de datos MySQL
+require_once '../session/init.php'; //control de inicialización de las variables de sesión
+require_once '../tables/controller.php'; // controlador dinámico de tablas
+
+$response = new respuesta();
+$ses      = new sesion();
+
+echo var_export($_POST, true);
+if ($_POST) {
+    $request = $_POST;
+	switch ($request["accion"]) {
+		case "login":
+			$Usuario = ControladorDinamicoTabla::set('USUARIO');
+			if ($Usuario->give(["usr_email"=>$request["user"], "usr_password"=>$request["pass"]]) == 0) {
+				$lista = $Usuario->getArray();
+				if (count($lista) == 1) {
+					$response->setCode(200);
+					$response->setDescription('Usuario validado correctamente');
+					$ses->setUsuario($lista[0]);
+				}
+			} else {
+				$response->setDescription('Usuario o contraseña no válido');
+			}
+			break;
+		case "validate":
+			if ($user = $ses->getUsuario()) {
+				$response->setCode(200);
+				$response->setDatos(["nombre"=>$user['usr_nombre']]);
+			} else {
+				$response->setDescription('No hay usuario validado');
+			}
+			break;
+		case "logout":
+			$ses->logOut();
+			$response->setCode(200);
+			$response->setDescription('Sesión cerrada');
+			break;
+	}
+}
+
+$response->responde();
+
+unset($ses);
+unset($response);
+
+
+/*
+
 class Usuario
 {
 	private $usr_codusr;
@@ -115,6 +168,6 @@ class Usuario
 	}
 
 }
-
+*/
 
 ?>

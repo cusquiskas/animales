@@ -1,20 +1,24 @@
 <header>
-    <div class="container my-4">
-        <div class="row">
-            <div class="col-3">
-                <nav class="navbar navbar-dark primary-color">
-                    <a class="navbar-brand" href="#">
-                        <img src="frontoffice/css/img/logo.png" alt="Multipiensos">
-                    </a>
-                </nav>
-            </div>
-            <div class="col-5">
-                <h3>Multipiensos</h3>
-                <h5>Todo para los reyes de la casa</h5>
-            </div>
-            <div class="col-3">
-                <p>La cesta no está disponible, aún</p>
+    <form name="valida" frC-Callback="valida" frC-Autoload="true" method="POST" action="/animales/backoffice/session/user.php"></form>
+        <div class="container my-4">
+            <div class="row">
+                <div class="col-3 text-left">
+                    <nav class="navbar navbar-dark primary-color">
+                        <a class="navbar-brand" href="#">
+                            <img src="frontoffice/css/img/logo.png" alt="Multipiensos">
+                        </a>
+                    </nav>
+                </div>
+                <div class="col-5">
+                    <h3>Multipiensos</h3>
+                    <h5>Todo para los reyes de la casa</h5>
+                </div>
+                <div class="col-3 text-right">
+                    <p>Hola&nbsp;<frc-graf name="usuario"><a href="#" name="login">Identifícate</a></frc-graf></p>
+                </div>
             </div>
         </div>
-    </div>
+    
+        <input style="display:none" name="accion" value="validate">
+    </form>
 </header>

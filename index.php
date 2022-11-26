@@ -1,4 +1,4 @@
-<?php require_once "backoffice/function.php"; ?>
+<?php require_once 'backoffice/function.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,18 +10,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo Cache::ruta('frontoffice/css/style.css'); ?>">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <template id="header"></template>
-    <template id="body"></template>
-    <template id="footer"></template>
+    <template id="body" class="wrapper flex-grow-1"></template>
+    <template id="footer" class="align-bottom"></template>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="frontoffice/js/jquery-3.3.1.min.js"></script>
-    <script src="<?php echo Cache::ruta('frontoffice/js/funciones.js');    ?>"></script>
+    <script src="<?php echo Cache::ruta('frontoffice/js/funciones.js'); ?>"></script>
     <script src="<?php echo Cache::ruta('frontoffice/js/peticionAjax.js'); ?>"></script>
-    <script src="<?php echo Cache::ruta('frontoffice/js/controller.js');   ?>"></script>
-    <script src="<?php echo Cache::ruta('frontoffice/js/scripts.js');      ?>"></script>
+    <script src="<?php echo Cache::ruta('frontoffice/js/controller.js'); ?>"></script>
+    <script src="<?php echo Cache::ruta('frontoffice/js/scripts.js'); ?>"></script>
 </body>
 </html>

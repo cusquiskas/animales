@@ -7,6 +7,6 @@ function iniciarApp() {
     Moduls.constants.initDate = new Date;
     Moduls.getFooter().load ({ url: '/animales/frontoffice/home/footer.html', script: true});
     Moduls.getHeader().load ({ url: '/animales/frontoffice/home/head.html',   script: true});
-    Moduls.getBody().load   ({ url: '/animales/frontoffice/home/componentes/contacto/contacto.html',   script: true});
+    Moduls.getBody().load   ({ url: '/animales/frontoffice/home/body.html',   script: true});
 }
 

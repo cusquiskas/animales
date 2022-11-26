@@ -9,8 +9,6 @@ class Cache
         $conf = new ConfiguracionSistema();
         $pa = $conf->getHome().$url;
         unset($conf);
-        $pa .= "$url";
-        //die $pa;
         if (file_exists($pa)) {
             $timestamp = filectime($pa);
         }
