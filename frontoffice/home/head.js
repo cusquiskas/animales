@@ -7,9 +7,14 @@ var head = class {
     }
 
     valida (s,d,e) {
-        debugger
+        debugger;
         if (s) {
-            e.form.setForm({"usuario":d.root.nombre});
+            if (e.form.parametros.accion.value == 'logout') {
+                location.reload();
+            } else {
+                e.form.set({"usuario":d.root.nombre, "accion":"logout"});
+                $('p[name="logout"]').show();
+            }
         }
     }
 }

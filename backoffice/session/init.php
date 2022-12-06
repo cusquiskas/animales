@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+
+header('Content-Type: application/json; charset=utf-8');
+
 /* creamos la estructura de datos que están en momória */
 if (!isset($_SESSION['data'])) $_SESSION['data'] = array();
 if (!isset($_SESSION['data']['user'])) $_SESSION['data']['user'] = array();

@@ -276,7 +276,7 @@ class FormController {
                     method: this.formulario.method,
                     params: this.get(),
                     extra: { form: me },
-                    contentType: this.formulario.getAttribute('Content-Type') || 'application/x-www-form-urlencoded',
+                    contentType: this.formulario.getAttribute('Content-Type') || 'application/json',
                     autoXSID: false,
                     function: function (s, d, e) {
                         //me.loading(me.formulario.name, false);

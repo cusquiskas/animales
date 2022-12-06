@@ -1,28 +1,32 @@
 <?php
+require_once '../session/init.php'; //control de inicialización de las variables de sesión
 
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-header('Content-Type: application/json; charset=utf-8');
 
 require_once '../conect/conf.php';  //información crítica del sistema
 require_once '../conect/dao.php';   //control de comunicación con la base de datos MySQL
-require_once '../session/init.php'; //control de inicialización de las variables de sesión
 require_once '../tables/controller.php'; // controlador dinámico de tablas
 
 $response = new respuesta();
 $ses      = new sesion();
 
-echo var_export($_POST, true);
+if (!$_POST)
+	$_POST = (array) json_decode(file_get_contents('php://input'));
+
 if ($_POST) {
-    $request = $_POST;
-	switch ($request["accion"]) {
+    switch ($_POST["accion"]) {
 		case "login":
 			$Usuario = ControladorDinamicoTabla::set('USUARIO');
-			if ($Usuario->give(["usr_email"=>$request["user"], "usr_password"=>$request["pass"]]) == 0) {
+			if ($Usuario->give(["usr_email"=>$_POST["user"], "usr_password"=>$_POST["pass"]]) == 0) {
 				$lista = $Usuario->getArray();
 				if (count($lista) == 1) {
-					$response->setCode(200);
-					$response->setDescription('Usuario validado correctamente');
-					$ses->setUsuario($lista[0]);
+					if ($lista[0]["usr_activo"] == 10) {
+						$response->setCode(200);
+						$response->setDatos(array("cousr"=>$lista[0]["usr_codusr"],"nombre"=>$lista[0]["usr_nombre"],"admin"=>$lista[0]["usr_admin"],"codcli"=>$lista[0]["usr_codcli"]));
+						$ses->setUsuario($lista[0]);
+					} else {
+						$response->setCode(501);
+						$response->setDescription('El usuario no se encuentra en un estado válido');
+					}
 				}
 			} else {
 				$response->setDescription('Usuario o contraseña no válido');
@@ -31,7 +35,7 @@ if ($_POST) {
 		case "validate":
 			if ($user = $ses->getUsuario()) {
 				$response->setCode(200);
-				$response->setDatos(["nombre"=>$user['usr_nombre']]);
+				$response->setDatos(["nombre"=>$user['usr_nombre'], "codusr"=>$user["usr_codusr"], "admin"=>$user["usr_admin"], "codcli"=>$user["usr_codcli"]]);
 			} else {
 				$response->setDescription('No hay usuario validado');
 			}

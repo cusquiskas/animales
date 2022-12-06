@@ -5,7 +5,17 @@ var login = class {
     }
 
     validacion (s,d,e) {
-        debugger
+        debugger;
+        if (s) {
+            if (d.root.codusr) {
+                sessionStorage.setItem('usuario', d.root);
+                location.reload();
+            } else {
+                alert('No se han recuperado datos');
+            }
+        } else {
+            alert(d.mensaje);
+        }
     }
 
 }
