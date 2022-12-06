@@ -21,7 +21,7 @@ if ($_POST) {
 				if (count($lista) == 1) {
 					if ($lista[0]["usr_activo"] == 10) {
 						$response->setCode(200);
-						$response->setDatos(array("cousr"=>$lista[0]["usr_codusr"],"nombre"=>$lista[0]["usr_nombre"],"admin"=>$lista[0]["usr_admin"],"codcli"=>$lista[0]["usr_codcli"]));
+						$response->setDatos(array("codusr"=>$lista[0]["usr_codusr"],"nombre"=>$lista[0]["usr_nombre"],"admin"=>$lista[0]["usr_admin"],"codcli"=>$lista[0]["usr_codcli"]));
 						$ses->setUsuario($lista[0]);
 					} else {
 						$response->setCode(501);

@@ -250,7 +250,7 @@ class FormController {
     ajax(objeto) {
         invocaAjax({
             direccion: objeto.action,
-            metodo: objeto.method || 'GET',
+            metodo: objeto.method || 'POST',
             parametros: objeto.params || '',
             contentType: objeto.contentType || 'application/json',
             autoXSID: (objeto.autoXSID === false ? false : true),
@@ -460,6 +460,7 @@ class ModulController {
                 }
             }
             me.enlazarScript(objeto, me.name);
+            me.url = objeto.url;
             if (me.script && Moduls[nombre]()) Moduls[nombre]().getScript = function () { return yo.script; };
             me.Forms = [];
             let formularios = me.template.getElementsByTagName('form');

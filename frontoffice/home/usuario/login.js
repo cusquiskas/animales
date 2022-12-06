@@ -5,11 +5,10 @@ var login = class {
     }
 
     validacion (s,d,e) {
-        debugger;
         if (s) {
             if (d.root.codusr) {
-                sessionStorage.setItem('usuario', d.root);
-                location.reload();
+                Moduls.getHeader().getScript().muestraUsuario(d.root);
+                Moduls.getBody().load({ url: sessionStorage.getItem('prevUrl'), script: (sessionStorage.getItem('prevUrlScrip')=='true')});
             } else {
                 alert('No se han recuperado datos');
             }
