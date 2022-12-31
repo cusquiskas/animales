@@ -12,10 +12,11 @@ $ses      = new sesion();
 if (!$_POST)
 	$_POST = (array) json_decode(file_get_contents('php://input'));
 
-if ($_POST) {
+	if ($_POST) {
     switch ($_POST["accion"]) {
 		case "login":
 			$Usuario = ControladorDinamicoTabla::set('USUARIO');
+			
 			if ($Usuario->give(["usr_email"=>$_POST["user"], "usr_password"=>$_POST["pass"]]) == 0) {
 				$lista = $Usuario->getArray();
 				if (count($lista) == 1) {
@@ -27,6 +28,8 @@ if ($_POST) {
 						$response->setCode(501);
 						$response->setDescription('El usuario no se encuentra en un estado válido');
 					}
+				} else {
+					$response->setDescription('Usuario o contraseña no válido');
 				}
 			} else {
 				$response->setDescription('Usuario o contraseña no válido');
