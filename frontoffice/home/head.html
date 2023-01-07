@@ -1,6 +1,6 @@
 <header>
     <form name="valida" frC-Callback="valida" frC-Autoload="true" method="POST" action="/animales/backoffice/session/user.php">
-        <div class="container my-4">
+        <div class="container-fluid my-4">
             <div class="row">
                 <div class="col-3 text-left">
                     <nav class="navbar navbar-dark primary-color">
@@ -17,10 +17,8 @@
                     <p>Hola&nbsp;<frc-graft name="usuario"><a href="#" name="login">Identifícate</a></frc-graft></p>
                     <p name="logout" style="display:none" >
                         <input style="display:none" name="accion" value="validate">
-                        <button type="submit">Cerrar Sesión</button>
-                    </p>
-                    <p name="admin" style="display:none" >
-                        <button name="admin" type="button">Administración</button>
+                        <button class="btn-danger" type="submit">Cerrar Sesión</button>
+                        <button name="admin" style="display:none" class="btn-default" type="button">Administración</button>
                     </p>
                 </div>
                 
